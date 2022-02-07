@@ -10,7 +10,6 @@ import com.android.composition.data.GameRepositoryImpl
 import com.android.composition.databinding.FragmentGameBinding
 import com.android.composition.domain.entity.GameResult
 import com.android.composition.domain.entity.Level
-import com.android.composition.domain.repository.GameRepository
 import com.android.composition.domain.usecases.GetGameSettingsUseCase
 
 class GameFragment : Fragment() {
@@ -62,7 +61,9 @@ class GameFragment : Fragment() {
 
 
     private fun parseArgs() {
-        level = requireArguments().getSerializable(KEY_LEVEL) as Level
+        requireArguments().getParcelable<Level>(KEY_LEVEL)?.let {
+            level = it
+        }
     }
 
 
@@ -72,7 +73,7 @@ class GameFragment : Fragment() {
         fun newInstance(level: Level): GameFragment {
             return GameFragment().apply {
                 arguments = Bundle().apply {
-                    putSerializable(KEY_LEVEL, level)
+                    putParcelable(KEY_LEVEL, level)
                 }
             }
         }
